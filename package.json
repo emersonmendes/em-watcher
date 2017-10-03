@@ -1,0 +1,16 @@
+{
+  "name": "em-watcher",
+  "version": "1.0.0",
+  "description": "Its gonna be watching ya :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "author": "Emerson Mendes",
+  "license": "MIT",
+  "dependencies": {
+    "node-watch": "^0.5.5",
+    "winston": "^2.3.1"
+  }
+}
