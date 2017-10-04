@@ -10,33 +10,29 @@ if(process.argv.length < 4){
     return;
 }
 
-const filesFrom = process.argv[2];
-const filesTo = process.argv[3];
+const filesFromRoot = process.argv[2];
+const filesToRoot = process.argv[3];
 
-logger.info('Watching %s ...', filesFrom);
-logger.info('Changing in  %s ...', filesTo);
+logger.info('Watching %s ...', path.basename(filesFromRoot));
+logger.info('Changing in %s ...', path.basename(filesToRoot));
 
 let changeFile = (file, data) => {
     fs.writeFile(file, data, 'utf8', (err) => {
         if (err) return logger.error(err);
-        logger.info('%s was changed succefuly.', file);
+        logger.info('%s was changed succefuly.', path.basename(file));
     });
 };
 
-watch(filesFrom, { recursive: true }, (evt, file) => {
-    
-    logger.info('%s changed.', file);
-
+watch(filesFromRoot, { recursive: true }, (evt, file) => {
     fs.readFile(file, 'utf8', (err, data) => {
         
         if (err) return logger.error(err);
-
-        if(fs.statSync(filesTo).isDirectory()){
-            changeFile(filesTo + "/" + path.basename(file), data);
+        
+        if(fs.statSync(filesToRoot).isDirectory()){
+            changeFile(filesToRoot + "/" + file.replace(filesFromRoot,""), data);
         } else {
-            changeFile(filesTo, data);
+            changeFile(filesToRoot, data);
         }
 
     });
-
 });
